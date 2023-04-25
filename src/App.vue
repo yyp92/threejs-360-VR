@@ -62,9 +62,11 @@ onMounted(() => {
       客厅: [100, 110],
       厨房: [180, 190],
       阳台: [50, 50],
-      卧室: [160, 40],
-      走廊: [150, 90],
+      主卧: [160, 40],
+      次卧: [200, 80],
+      走廊: [150, 65],
     };
+
     if (positions[name]) {
       gsap.to(tagDiv.value, {
         duration: 1,
@@ -74,6 +76,7 @@ onMounted(() => {
       });
     }
   }
+
   tagDiv.value.style.cssText = `
     transform: translate(100px,110px);
   `;
@@ -90,18 +93,21 @@ onMounted(() => {
   let textureUrl = "./img/kitchen";
   let kitEuler = new THREE.Euler(0, -Math.PI / 2, 0);
   const room = new Room("厨房", kitIndex, textureUrl, kitPosition, kitEuler);
+  
   // 创建文字精灵
   const text = new SpriteCanvas(camera, "厨房", new THREE.Vector3(-1, 0, -3));
   // text.mesh.rotation.y = Math.PI / 3;
   scene.add(text.mesh);
   text.onClick(() => {
     console.log("厨房");
+
     gsap.to(camera.position, {
       x: kitPosition.x,
       y: kitPosition.y,
       z: kitPosition.z,
       duration: 1,
     });
+
     moveTag("厨房");
   });
 
@@ -114,12 +120,14 @@ onMounted(() => {
   scene.add(textLiving.mesh);
   textLiving.onClick(() => {
     console.log("客厅");
+
     gsap.to(camera.position, {
       x: livingPosition.x,
       y: livingPosition.y,
       z: livingPosition.z,
       duration: 1,
     });
+
     moveTag("客厅");
   });
 
@@ -145,12 +153,14 @@ onMounted(() => {
   scene.add(textBalcony.mesh);
   textBalcony.onClick(() => {
     console.log("阳台");
+
     gsap.to(camera.position, {
       x: balconyPosition.x,
       y: balconyPosition.y,
       z: balconyPosition.z,
       duration: 1,
     });
+
     moveTag("阳台");
   });
 
@@ -163,12 +173,14 @@ onMounted(() => {
   scene.add(textBalconyToLiving.mesh);
   textBalconyToLiving.onClick(() => {
     console.log("客厅");
+
     gsap.to(camera.position, {
       x: livingPosition.x,
       y: livingPosition.y,
       z: livingPosition.z,
       duration: 1,
     });
+
     moveTag("客厅");
   });
 
@@ -189,17 +201,19 @@ onMounted(() => {
   const textCorridor = new SpriteCanvas(
     camera,
     "走廊",
-    new THREE.Vector3(-4, 0, 0.5)
+    new THREE.Vector3(-3.5, 0, 0.5)
   );
   scene.add(textCorridor.mesh);
   textCorridor.onClick(() => {
     console.log("走廊");
+
     gsap.to(camera.position, {
       x: hallwayPosition.x,
       y: hallwayPosition.y,
       z: hallwayPosition.z,
       duration: 1,
     });
+
     moveTag("走廊");
   });
 
@@ -212,12 +226,14 @@ onMounted(() => {
   scene.add(textCorridorToLiving.mesh);
   textCorridorToLiving.onClick(() => {
     console.log("客厅");
+
     gsap.to(camera.position, {
       x: livingPosition.x,
       y: livingPosition.y,
       z: livingPosition.z,
       duration: 1,
     });
+
     moveTag("客厅");
   });
 
@@ -233,23 +249,27 @@ onMounted(() => {
     mainPosition
     // mainEuler
   );
+
   // 主卧文字精灵
   const textMain = new SpriteCanvas(
     camera,
     "主卧",
-    new THREE.Vector3(-19, 0, 2)
+    new THREE.Vector3(-19, 0, 3)
   );
   scene.add(textMain.mesh);
   textMain.onClick(() => {
     console.log("主卧");
+
     gsap.to(camera.position, {
       x: mainPosition.x,
       y: mainPosition.y,
       z: mainPosition.z,
       duration: 1,
     });
+
     moveTag("主卧");
   });
+  
   // 创建主卧回走廊文字精灵
   const textMainToCorridor = new SpriteCanvas(
     camera,
@@ -259,15 +279,71 @@ onMounted(() => {
   scene.add(textMainToCorridor.mesh);
   textMainToCorridor.onClick(() => {
     console.log("走廊");
+
     gsap.to(camera.position, {
       x: hallwayPosition.x,
       y: hallwayPosition.y,
       z: hallwayPosition.z,
       duration: 1,
     });
+
     moveTag("走廊");
-  }),
-    container.value.appendChild(renderer.domElement);
+  })
+
+  // 创建次卧
+  let secondaryPosition = new THREE.Vector3(-23, 0, -9);
+  let secondaryIndex = 13;
+  let secondaryUrl = "./img/childroom";
+  let secondaryEuler = new THREE.Euler(0, Math.PI / 2, 0);
+  const secondar = new Room(
+    "次卧",
+    secondaryIndex,
+    secondaryUrl,
+    secondaryPosition,
+    secondaryEuler
+  );
+
+  // 次卧文字精灵
+  const textSecondary = new SpriteCanvas(
+    camera,
+    "次卧",
+    new THREE.Vector3(-18, 0, -4)
+  );
+  scene.add(textSecondary.mesh);
+  textSecondary.onClick(() => {
+    console.log("次卧");
+
+    gsap.to(camera.position, {
+      x: secondaryPosition.x,
+      y: secondaryPosition.y,
+      z: secondaryPosition.z,
+      duration: 1,
+    });
+
+    moveTag("次卧");
+  });
+
+  // 创建次卧回走廊文字精灵
+  const textSecondaryToCorridor = new SpriteCanvas(
+    camera,
+    "走廊",
+    new THREE.Vector3(-22, 0, -5)
+  );
+  scene.add(textSecondaryToCorridor.mesh);
+  textSecondaryToCorridor.onClick(() => {
+    console.log("走廊");
+
+    gsap.to(camera.position, {
+      x: hallwayPosition.x,
+      y: hallwayPosition.y,
+      z: hallwayPosition.z,
+      duration: 1,
+    });
+
+    moveTag("走廊");
+  })
+    
+  container.value.appendChild(renderer.domElement);
   render();
 
   let isMouseDown = false;
@@ -301,6 +377,7 @@ onMounted(() => {
   );
 });
 
+// 创建房间
 class Room {
   constructor(
     name,
@@ -331,7 +408,7 @@ class Room {
     arr.forEach((item) => {
       // 纹理加载
       let texture = new THREE.TextureLoader().load(`${textureUrl}/${item}.jpg`);
-      // 创建材质
+      // 创建材质(顶部和底部图片显示的位置不正确)
       if (item === `${roomIndex}_u` || item === `${roomIndex}_d`) {
         texture.rotation = Math.PI;
         texture.center = new THREE.Vector2(0.5, 0.5);
@@ -339,12 +416,14 @@ class Room {
 
       boxMaterials.push(new THREE.MeshBasicMaterial({ map: texture }));
     });
+
     const cube = new THREE.Mesh(geometry, boxMaterials);
     cube.position.copy(position);
     cube.rotation.copy(euler);
     // cube.geometry.scale(1, 1, -1);
     scene.add(cube);
 
+    // 首次进入页面时的加载动画
     THREE.DefaultLoadingManager.onProgress = function (item, loaded, total) {
       console.log(item, loaded, total);
       progress.value = new Number((loaded / total) * 100).toFixed(2);
@@ -354,82 +433,82 @@ class Room {
 </script>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-}
-.container {
-  height: 100vh;
-  width: 100vw;
-  background-color: #f0f0f0;
-}
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    height: 100vh;
+    width: 100vw;
+    background-color: #f0f0f0;
+  }
 
-.map {
-  width: 300px;
-  height: 260px;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-.map > img {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-.map > .tag {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 30px;
-  height: 30px;
-  background-image: url(./assets/location.png);
-  background-size: cover;
-  z-index: 1;
-}
-.loading {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-image: url(./assets/loading.png);
-  background-size: cover;
-  filter: blur(50px);
-  z-index: 100;
-}
-.progress {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 101;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-  color: #fff;
-}
-.progress > img {
-  padding: 0 15px;
-}
+  .map {
+    width: 300px;
+    height: 260px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  .map > img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .map > .tag {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    background-image: url(./assets/location.png);
+    background-size: cover;
+    z-index: 1;
+  }
+  .loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url(./assets/loading.png);
+    background-size: cover;
+    filter: blur(50px);
+    z-index: 100;
+  }
+  .progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 101;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    color: #fff;
+  }
+  .progress > img {
+    padding: 0 15px;
+  }
 
-.title {
-  width: 180px;
-  height: 40px;
-  position: fixed;
-  right: 100px;
-  top: 50px;
-  background-color: rgba(0, 0, 0, 0.5);
-  line-height: 40px;
-  text-align: center;
-  color: #fff;
-  border-radius: 5px;
-  z-index: 110;
-}
+  .title {
+    width: 180px;
+    height: 40px;
+    position: fixed;
+    right: 100px;
+    top: 50px;
+    background-color: rgba(0, 0, 0, 0.5);
+    line-height: 40px;
+    text-align: center;
+    color: #fff;
+    border-radius: 5px;
+    z-index: 110;
+  }
 </style>
